@@ -1,12 +1,13 @@
 <div align="center">
 	<br>
-  <p><a href="https://github.com/omarqazidev/parallelizer"><img src="logo-p2.png" width="120" alt="Parallelizer" /></a></p>
+  <p><a href="https://github.com/omarqazidev/parallelizer"><img src="logo.png" width="120" alt="Parallelizer" /></a></p>
   <p><b>Parallelizer</b></p>
   Run your CPU-intensive tasks in parallel.
 	<br>
 	<br>
 </div>
 
+## Introduction
 Parallelizer is a Node.js program that allows you to run your CPU-intensive tasks in parallel.
 
 Remember, Concurrency is not Parallelism. 
