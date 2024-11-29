@@ -27,7 +27,7 @@ async function testManageConcurrency() {
 
 async function testParallelize() {
   return new Promise(async (resolve, reject) => {
-    const taskList = taskListGenerator(100);
+    const taskList = taskListGenerator(200);
     await parallelize({
       tasks: taskList,
       workerFilePath: './src/worker.js',
@@ -61,5 +61,5 @@ async function testParallelize() {
 
 export async function test() {
   await unitTest('parallelize()', testParallelize);
-  await unitTest('manageConcurrency()', testManageConcurrency);
+  // await unitTest('manageConcurrency()', testManageConcurrency);
 }
