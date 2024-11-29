@@ -1,6 +1,6 @@
 import { cpus } from 'os';
-import { unitTest } from '../tests/config/unit-test';
-import { taskListGenerator } from '../tests/config/mocks';
+import { unitTest } from '../test-config/unit-test';
+import { taskListGenerator } from '../test-config/mocks';
 import { manageConcurrency, parallelize } from './parallelize';
 import { getFeatureFlags, isTimeBetween } from './utils';
 
@@ -32,8 +32,8 @@ async function testParallelize() {
       tasks: taskList,
       workerFilePath: './src/worker.js',
       getMaxConcurrency: () => {
-        if (isTimeBetween('9:00', '10:00')) {
-          return 4;
+        if (isTimeBetween('9:00', '17:00')) {
+          return 2;
         }
 
         const featureFlags = getFeatureFlags();
@@ -60,6 +60,6 @@ async function testParallelize() {
 }
 
 export async function test() {
-  await unitTest('manageConcurrency()', testManageConcurrency);
   await unitTest('parallelize()', testParallelize);
+  await unitTest('manageConcurrency()', testManageConcurrency);
 }
