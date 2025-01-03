@@ -1,6 +1,6 @@
 {
   "name": "thread-tasks",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Thread your tasks: Run your CPU-intensive tasks in parallel threads.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
