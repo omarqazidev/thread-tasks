@@ -2,11 +2,13 @@
   "name": "parallelize",
   "version": "1.0.0",
   "description": "Run multiple CPU-intensive tasks in parallel.",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsup"
+    "build": "tsup",
+    "build-cli": "tsup index.ts --format cjs,esm --dts",
+    "lint": "tsc --noEmit"
   },
   "keywords": [
     "parallel",
@@ -31,6 +33,7 @@
   "author": "Omar Qazi",
   "license": "MIT",
   "devDependencies": {
+    "@changesets/cli": "^2.27.11",
     "@types/node": "^22.10.1",
     "tsup": "^8.3.5",
     "typescript": "^5.7.2"
