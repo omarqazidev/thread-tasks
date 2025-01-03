@@ -1,5 +1,5 @@
 {
-  "name": "thread-tasks",
+  "name": "@omarqazidev/thread-tasks",
   "version": "2.1.0",
   "description": "Thread your tasks: Run your CPU-intensive tasks in parallel threads.",
   "main": "dist/index.js",
