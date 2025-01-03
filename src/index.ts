@@ -53,24 +53,28 @@ async function deleteWorkerFile(n: number) {
 }
 
 export function threadTasks<TaskArguments>(tasks: Task<TaskArguments>[]) {
-  return tasks.map(async (task, i) => {
-    await createWorkerFile(task, i);
-    const worker = new Worker(join(workersDirectory, `worker${i}.js`), {
-      workerData: {
-        data: task.args ? { ...task.args } : {}
+  return tasks.map(async task => {
+    const randomIdWithTimestamp = Date.now() + Math.floor(Math.random() * 1000);
+    await createWorkerFile(task, randomIdWithTimestamp);
+    const worker = new Worker(
+      join(workersDirectory, `worker${randomIdWithTimestamp}.js`),
+      {
+        workerData: {
+          data: task.args ? { ...task.args } : {}
+        }
       }
-    });
+    );
 
     worker.on('message', async msg => {
       task.onSuccess && (await task.onSuccess(msg));
       worker.terminate();
-      deleteWorkerFile(i);
+      deleteWorkerFile(randomIdWithTimestamp);
     });
 
     worker.on('error', async err => {
       task.onError && (await task.onError(err));
       worker.terminate();
-      deleteWorkerFile(i);
+      deleteWorkerFile(randomIdWithTimestamp);
     });
 
     return worker;

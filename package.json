@@ -1,6 +1,6 @@
 {
   "name": "thread-tasks",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Thread your tasks: Run your CPU-intensive tasks in parallel threads.",
   "publishConfig": {
     "access": "public"
@@ -8,9 +8,9 @@
   "files": [
     "dist"
   ],
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsup",
     "build-cli": "tsup ./src/index.ts --format cjs,esm --dts",
