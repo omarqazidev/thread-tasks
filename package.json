@@ -1,7 +1,10 @@
 {
-  "name": "@omarqazidev/thread-tasks",
-  "version": "2.1.0",
+  "name": "thread-tasks",
+  "version": "0.1.0",
   "description": "Thread your tasks: Run your CPU-intensive tasks in parallel threads.",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
