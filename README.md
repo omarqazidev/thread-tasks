@@ -1,15 +1,14 @@
-# Parallelize
-A utility function for running multiple CPU-intensive tasks (functions) in parallel.
-
+# Thread-Tasks
+Thread your tasks: Boost performace by running your CPU-intensive tasks in parallel threads.
 
 ## Installation
 
 ```bash
-npm install parallelize
+npm install thread-tasks
 ```
 
 ## Usage
-`parallelize` takes an array of objects, each representing a function (task) to be executed in parallel. Each object should have the following properties:
+`threadTasks` takes an array of objects, each representing a function (task) to be executed in a seprate thread (in parallel). Each object should have the following properties:
 - `fn`: the function (task) to be executed. Can be a normal function or an async function.
 - `args`: an optional object containing arguments to be passed to the function.
 - `onSuccess`: an optional callback function to be executed when the function completes successfully.
@@ -18,7 +17,7 @@ npm install parallelize
 ## Simple Usage
 
 ```javascript
-parallelize([
+threadTasks([
   {
     fn: () => {
       console.log(`I'm running parallelly`);
@@ -31,7 +30,7 @@ parallelize([
 ### Using with function arguments and callbacks.
 
 ```javascript
-parallelize([
+threadTasks([
   {
     fn: data => {
       return data.a + data.b;
@@ -49,7 +48,7 @@ parallelize([
 ```
 ### Using for API fetch requests
 ```javascript
-parallelize([
+threadTasks([
   {
     fn: async data => {
       const  res  = await fetch(data.url);
@@ -77,7 +76,7 @@ parallelize([
 
 ### Using external packages
 ```javascript
-parallelize([
+threadTasks([
   {
     fn: async data => {
       const axios = require('axios');

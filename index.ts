@@ -52,7 +52,7 @@ async function deleteWorkerFile(n: number) {
   fs.unlinkSync(`${workersDirectory}/worker${n}.js`);
 }
 
-export function parallelize<TaskArguments>(tasks: Task<TaskArguments>[]) {
+export function threadTasks<TaskArguments>(tasks: Task<TaskArguments>[]) {
   return tasks.map(async (task, i) => {
     await createWorkerFile(task, i);
     const worker = new Worker(join(workersDirectory, `worker${i}.js`), {
