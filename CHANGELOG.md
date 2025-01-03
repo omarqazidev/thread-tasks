@@ -1,5 +1,11 @@
 # thread-tasks
 
+## 0.2.1
+
+### Patch Changes
+
+- 0b11e7c: Fix TypeScript build target to ensure compatibility.
+
 ## 0.2.0
 
 ### Minor Changes
