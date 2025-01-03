@@ -1,64 +1,105 @@
-<div align="center">
-	<br>
-  <p><a href="https://github.com/omarqazidev/parallelizer"><img src="logo.png" width="120" alt="Parallelizer" /></a></p>
-  <p><b>Parallelizer</b></p>
-  Run your CPU-intensive tasks in parallel.
-	<br>
-	<br>
-</div>
+# Parallelize
+A utility function for running multiple CPU-intensive tasks (functions) in parallel.
 
-## Introduction
-Parallelizer is a Node.js program that allows you to run your CPU-intensive tasks in parallel.
 
-Remember, Concurrency is not Parallelism. 
+## Installation
 
-> "Concurrency is about dealing with lots of things at once. Parallelism is about doing lots of things at once." — Rob Pike
+```bash
+npm install parallelize
+```
 
-## Problem
-Process N number of tasks concurrently, until the task list
-is exhausted. N defines the number of concurrent promises that should be resolved. N
-should be changeable on the fly. No external libraries or packages can be used.
+## Usage
+`parallelize` takes an array of objects, each representing a function (task) to be executed in parallel. Each object should have the following properties:
+- `fn`: the function (task) to be executed. Can be a normal function or an async function.
+- `args`: an optional object containing arguments to be passed to the function.
+- `onSuccess`: an optional callback function to be executed when the function completes successfully.
+- `onError`: an optional callback function to be executed when the function throws an error.
 
-**Breakdown**
-- Process N number of tasks simultaneously (at the same time / in parallel).
-- Do this until all the tasks have been processed.
-- You should be able to change N (number of tasks running in parallell) on the fly.
-- When one task finishes processing, start another task in its place.
-- You should only use internal node.js functionality. No external packages allowed.
+## Simple Usage
 
-## Initial Thoughts Solution
-As soon as you hear promises (with an s), you think `Promise.all()` and `Promise.allSettled()`. Just loop over the task list, add N number of task promises to an array of size N, pass that array as an argument to `Promise.all()`, and repeat this until all the tasks have been processed. Right? Unfortunately wrong. 
+```javascript
+parallelize([
+  {
+    fn: () => {
+      console.log(`I'm running parallelly`);
+    }
+  }
+]);
+```
+## Advanced Usage
 
-Why not? Would that not allow us to process all the tasks, N at a time?
+### Using with function arguments and callbacks.
 
-See the issue with this approach is the following:
+```javascript
+parallelize([
+  {
+    fn: data => {
+      return data.a + data.b;
+    },
+    args: { a: 1, b: 2 },
+    onSuccess: msg => {
+      console.log(`Sum = ${msg}`);
+    },
+    onError: err => {
+      console.log(err.message);
+    }
+  },
+  // ... other tasks to be executed in parallel ...
+]);
+```
+### Using for API fetch requests
+```javascript
+parallelize([
+  {
+    fn: async data => {
+      const  res  = await fetch(data.url);
+      const  json  = await res.json();
+      return  json;
+    },
+    args: { url: 'https://jsonplaceholder.typicode.com/posts/1' },
+    onSuccess: json => {
+      console.log(JSON.stringify(json));
+    }
+  },
+  {
+    fn: async data => {
+      const  res  = await fetch(data.url);
+      const  json  = await res.json();
+      return  json;
+    },
+    args: { url: 'https://jsonplaceholder.typicode.com/posts/2' },
+    onSuccess: json => {
+      console.log(JSON.stringify(json));
+    }
+  }
+]);
+```
 
-- One batch/chunk of tasks would have to finish processing, for the next batch to start.
-- We are not able to change the number of processing tasks (N) on the fly (using some external event).
+### Using external packages
+```javascript
+parallelize([
+  {
+    fn: async data => {
+      const axios = require('axios');
+      const res = await axios.get(data.url);
+      return res.data;
+    },
+    args: { url: 'https://jsonplaceholder.typicode.com/posts/1' },
+    onSuccess: data => {
+      console.log(JSON.stringify(data));
+    }
+  }
+]);
+```
 
-## Limitation of Node.js
-Node.js is a single-threaded runtime, and cannot therefore, actually run asynchronous tasks in parallel... until worker threads.
+## Example Use Cases
 
-In node.js v10.5, threads were introduced. Threads allow async tasks to run in parallel using node.js.
+- Running multiple API requests in parallel
+- Executing multiple asynchronous tasks concurrently
+- Improving performance by parallelizing computationally expensive tasks
 
-Node.js allows offers clusters to scale your node.js applications. However, clusters are used when you want multiple isolated instances (processes) of a node.js application.
+## License
+MIT License
 
-In our case, we want to processes CPU-intensive tasks. For this, worker threads are the way to go.
-
-## Solution
-- `Worker` threads for the heavy-lifting.
-- `setInterval()` to run and manage muliple worker instances.
-- `workerData` to communicate with the workers (threads).
-- Allow external events to change `N` (number of tasks to process simultaneously).
-
-## How to run
-1. Clone the project.
-2. `npm i` to install dependencies (typescript and ts-node).
-3. `npm run test` to run tests.
-
-## External events changing N
-- If the time is between 9:00 AM to 5:00 PM, then `N = 2`
-- If the time is not in between 9:00 AM to 5:00 PM, then in `env.json`
-  - if `USE_ALL_CORES` is true, 
-    - then `N = total no. of CPU cores`
-    - else `N = MAX_CONCURRENCY`
+## Contributing
+Pull requests and issues welcome!

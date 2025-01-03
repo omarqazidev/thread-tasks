@@ -1,19 +1,38 @@
 {
   "name": "parallelize",
   "version": "1.0.0",
-  "description": "",
-  "main": "dist/index.js",
+  "description": "Run multiple CPU-intensive tasks in parallel.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "test": "ts-node ./src/index.ts"
+    "build": "tsup"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "parallel",
+    "concurrent",
+    "threads",
+    "workers",
+    "webworkers",
+    "async",
+    "function",
+    "callback",
+    "asynchronous",
+    "concurrent",
+    "concurrently",
+    "parallelize",
+    "parallelizer",
+    "taskworker",
+    "task",
+    "tasks",
+    "worker",
+    "workers"
+  ],
+  "author": "Omar Qazi",
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "^22.10.1",
+    "tsup": "^8.3.5",
     "typescript": "^5.7.2"
-  },
-  "dependencies": {
-    "ts-node": "^10.9.2"
   }
 }
