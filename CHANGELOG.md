@@ -1,5 +1,11 @@
 # parallelize
 
+## 0.2.0
+
+### Minor Changes
+
+- 30f04a4: update file structure
+
 ## 2.1.0
 
 ### Minor Changes
