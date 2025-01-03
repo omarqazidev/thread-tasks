@@ -1,5 +1,11 @@
 # thread-tasks
 
+## 0.2.3
+
+### Patch Changes
+
+- 52153b8: change build target to increase stability
+
 ## 0.2.2
 
 ### Patch Changes
