@@ -5,12 +5,15 @@
   "publishConfig": {
     "access": "public"
   },
+  "files": [
+    "dist"
+  ],
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsup",
-    "build-cli": "tsup index.ts --format cjs,esm --dts",
+    "build-cli": "tsup ./src/index.ts --format cjs,esm --dts",
     "lint": "tsc --noEmit"
   },
   "keywords": [
