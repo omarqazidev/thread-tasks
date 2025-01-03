@@ -1,5 +1,11 @@
 # thread-tasks
 
+## 0.2.2
+
+### Patch Changes
+
+- b3ebfc7: Change build target to increase backwards compatibility
+
 ## 0.2.1
 
 ### Patch Changes
