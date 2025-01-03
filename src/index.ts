@@ -56,6 +56,7 @@ export function threadTasks<TaskArguments>(tasks: Task<TaskArguments>[]) {
   return tasks.map(async task => {
     const randomIdWithTimestamp = Date.now() + Math.floor(Math.random() * 1000);
     await createWorkerFile(task, randomIdWithTimestamp);
+
     const worker = new Worker(
       join(workersDirectory, `worker${randomIdWithTimestamp}.js`),
       {
