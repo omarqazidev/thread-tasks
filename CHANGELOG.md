@@ -1,5 +1,11 @@
 # thread-tasks
 
+## 0.2.4
+
+### Patch Changes
+
+- a806f38: transpile worker
+
 ## 0.2.3
 
 ### Patch Changes
