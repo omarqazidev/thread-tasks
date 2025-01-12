@@ -1,5 +1,11 @@
 # thread-tasks
 
+## 0.3.0
+
+### Minor Changes
+
+- 7f3e8a7: add concurrency control
+
 ## 0.2.4
 
 ### Patch Changes
