@@ -58,10 +58,29 @@ async function createWorkerFile<TaskArguments>(
 }
 
 async function deleteWorkerFile(n: number) {
+  const filePath = `${workersDirectory}/worker${n}.js`;
   const fs = await import('fs');
-  fs.unlinkSync(`${workersDirectory}/worker${n}.js`);
+  if (fs.existsSync(filePath)) {
+    fs.unlinkSync(filePath);
+  }
 }
 
+/**
+ * Runs the given tasks in parallel threads, allowing for CPU-intensive operations
+ * to be offloaded from the main thread. Each task is given its own worker, and
+ * the tasks are run in the order they are given in the array. The function
+ * returns an array of Worker objects, which can be used to terminate the
+ * workers if needed.
+ *
+ * @param tasks An array of tasks to run in parallel. Each task is an object with
+ *   three properties: `fn` (a function that takes no arguments), `args` (an
+ *   optional object that is passed to the worker as `workerData`), and
+ *   `onSuccess` and `onError` (optional functions that are called with the
+ *   result of the task if it succeeds or fails, respectively).
+ *
+ * @returns An array of Worker objects, which can be used to terminate the
+ *   workers if needed.
+ */
 export function threadTasks<TaskArguments>(tasks: Task<TaskArguments>[]) {
   return tasks.map(async task => {
     const randomIdWithTimestamp = Date.now() + Math.floor(Math.random() * 1000);
@@ -89,5 +108,101 @@ export function threadTasks<TaskArguments>(tasks: Task<TaskArguments>[]) {
     });
 
     return worker;
+  });
+}
+
+/**
+ * Executes a set of tasks in parallel threads, with controlled concurrency.
+ *
+ * @param tasks - An array of tasks to run in parallel. Each task is an object
+ *   with the following properties: `fn` (a function to be executed), `args`
+ *   (optional arguments for the function), and optional `onSuccess` and
+ *   `onError` callbacks.
+ * @param getMaxConcurrency - An optional function that returns the maximum
+ *   number of concurrent tasks allowed. If not provided, it defaults to
+ *   the number of CPU cores available.
+ * @param afterAll - An optional callback function that is executed after all
+ *   tasks have been completed.
+ *
+ * @returns A promise that resolves once all tasks have been processed.
+ */
+export function threadTasksAdvanced<TaskArguments>({
+  tasks,
+  getMaxConcurrency,
+  afterAll
+}: {
+  tasks: Task<TaskArguments>[];
+  getMaxConcurrency?: () => number;
+  afterAll?: () => any | (() => Promise<any>);
+}) {
+  return new Promise((resolve, reject) => {
+    let counter = 0;
+    let activeWorkers = 0;
+
+    let maxCpus: number | null = null;
+    let getConcurrency: () => number =
+      getMaxConcurrency ??
+      (() => {
+        if (maxCpus === null) {
+          const os = require('os');
+          const cpuCount = os.cpus().length;
+          maxCpus = cpuCount;
+          return cpuCount;
+        }
+        return maxCpus;
+      });
+
+    let concurrency = getConcurrency();
+
+    const interval = setInterval(async () => {
+      const maxConcurrency = getConcurrency();
+
+      if (concurrency !== maxConcurrency) {
+        console.log(`**** changing concurrency to ${maxConcurrency} ****`);
+      }
+
+      concurrency = maxConcurrency;
+
+      if (activeWorkers < maxConcurrency && counter < tasks.length) {
+        const task = tasks[counter]!;
+
+        const randomIdWithTimestamp =
+          Date.now() + Math.floor(Math.random() * 1000);
+
+        await createWorkerFile(task, randomIdWithTimestamp);
+
+        const worker = new Worker(
+          join(workersDirectory, `worker${randomIdWithTimestamp}.js`),
+          {
+            workerData: {
+              data: task.args ? { ...task.args } : {}
+            }
+          }
+        );
+
+        counter++;
+        activeWorkers++;
+
+        worker.on('message', async msg => {
+          task.onSuccess && (await task.onSuccess(msg));
+          worker.terminate();
+          activeWorkers--;
+          deleteWorkerFile(randomIdWithTimestamp);
+        });
+
+        worker.on('error', async err => {
+          task.onError && (await task.onError(err));
+          worker.terminate();
+          activeWorkers--;
+          deleteWorkerFile(randomIdWithTimestamp);
+        });
+      }
+
+      if (counter === tasks.length && activeWorkers === 0) {
+        afterAll && (await afterAll());
+        clearInterval(interval);
+        resolve(true);
+      }
+    }, 1);
   });
 }
