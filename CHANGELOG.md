@@ -1,5 +1,11 @@
 # thread-tasks
 
+## 0.3.1
+
+### Patch Changes
+
+- 66f8f9a: improve param and var names for clarity in threadTasksAdvanced func
+
 ## 0.3.0
 
 ### Minor Changes
