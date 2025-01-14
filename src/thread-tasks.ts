@@ -112,14 +112,14 @@ export function threadTasks<TaskArguments>(tasks: Task<TaskArguments>[]) {
 }
 
 /**
- * Executes a set of tasks in parallel threads, with controlled concurrency.
+ * Executes a set of tasks in parallel threads, with controlled concurrency (max thread count).
  *
  * @param tasks - An array of tasks to run in parallel. Each task is an object
  *   with the following properties: `fn` (a function to be executed), `args`
  *   (optional arguments for the function), and optional `onSuccess` and
  *   `onError` callbacks.
- * @param getMaxConcurrency - An optional function that returns the maximum
- *   number of concurrent tasks allowed. If not provided, it defaults to
+ * @param getMaxThreads - An optional function that returns the maximum
+ *   number of simultaneously running tasks allowed. If not provided, it defaults to
  *   the number of CPU cores available.
  * @param afterAll - An optional callback function that is executed after all
  *   tasks have been completed.
@@ -128,11 +128,11 @@ export function threadTasks<TaskArguments>(tasks: Task<TaskArguments>[]) {
  */
 export function threadTasksAdvanced<TaskArguments>({
   tasks,
-  getMaxConcurrency,
+  getMaxThreads,
   afterAll
 }: {
   tasks: Task<TaskArguments>[];
-  getMaxConcurrency?: () => number;
+  getMaxThreads?: () => number;
   afterAll?: () => any | (() => Promise<any>);
 }) {
   return new Promise((resolve, reject) => {
@@ -140,8 +140,8 @@ export function threadTasksAdvanced<TaskArguments>({
     let activeWorkers = 0;
 
     let maxCpus: number | null = null;
-    let getConcurrency: () => number =
-      getMaxConcurrency ??
+    let getThreadCount: () => number =
+      getMaxThreads ??
       (() => {
         if (maxCpus === null) {
           const os = require('os');
@@ -152,18 +152,18 @@ export function threadTasksAdvanced<TaskArguments>({
         return maxCpus;
       });
 
-    let concurrency = getConcurrency();
+    let threadCount = getThreadCount();
 
     const interval = setInterval(async () => {
-      const maxConcurrency = getConcurrency();
+      const maxThreadCount = getThreadCount();
 
-      if (concurrency !== maxConcurrency) {
-        console.log(`**** changing concurrency to ${maxConcurrency} ****`);
+      if (threadCount !== maxThreadCount) {
+        // console.log(`**** changing max threads to ${maxThreadCount} ****`);
       }
 
-      concurrency = maxConcurrency;
+      threadCount = maxThreadCount;
 
-      if (activeWorkers < maxConcurrency && counter < tasks.length) {
+      if (activeWorkers < maxThreadCount && counter < tasks.length) {
         const task = tasks[counter]!;
 
         const randomIdWithTimestamp =
