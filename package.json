@@ -1,6 +1,6 @@
 {
   "name": "thread-tasks",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Thread your tasks: Run your CPU-intensive tasks in parallel threads.",
   "publishConfig": {
     "access": "public"
