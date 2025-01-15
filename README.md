@@ -1,8 +1,8 @@
 <p align="center">
-<img src="./logo.png" width="200" height="200" alt="Codeium Logo" >
+<img src="https://raw.githubusercontent.com/omarqazidev/thread-tasks/refs/heads/main/logo.png" width="200" height="200" alt="Thread-Tasks Logo" >
 </p>
 <p align="center">
-<b>Thread-ify Tasks</b>: Offload your CPU-intensive tasks to separate threads.
+<b>Thread Tasks</b>: Offload your CPU-intensive tasks to separate threads.
 </p>
 
 # Installation
