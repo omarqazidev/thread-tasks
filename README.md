@@ -1,6 +1,10 @@
-<center><img src="./logo.png" width="200" height="200" alt="Codeium Logo" ></center>
-</br>
-<center><b>Thread-ify tasks</b>: Offload your CPU-intensive tasks to separate threads.</center>
+<p align="center">
+<img src="./logo.png" width="200" height="200" alt="Codeium Logo" >
+</p>
+<p align="center">
+<b>Thread-ify Tasks</b>: Offload your CPU-intensive tasks to separate threads.
+</p>
+
 
 ## Installation
 
