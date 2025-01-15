@@ -1,7 +1,7 @@
 {
   "name": "thread-tasks",
   "version": "0.3.2",
-  "description": "Thread your tasks: Run your CPU-intensive tasks in parallel threads.",
+  "description": "Thread-ify your tasks: Offload your CPU-intensive tasks to separate threads.",
   "publishConfig": {
     "access": "public"
   },
