@@ -5,18 +5,24 @@
 <b>Thread-ify Tasks</b>: Offload your CPU-intensive tasks to separate threads.
 </p>
 
-
-## Installation
-
+# Installation
 ```bash
 npm install thread-tasks
 ```
+# Basic Usage
+```typescript
+const task = {
+  fn: () => console.log('Hello World!')
+};
+threadTasks([task]);
+```
 
-## Functions
+
+# Functions
 - `threadTasks`
 - `threadTasksAdvanced`
 
-## `threadTasks`
+# `threadTasks`
 `threadTasks` takes in an array of task objects and returns an array of workers.
 
 **Task Object**
@@ -26,9 +32,9 @@ Each task object should have the following properties:
 - `onSuccess`: an optional callback function to be executed when the function completes successfully.
 - `onError`: an optional callback function to be executed when the function throws an error.
 
-### Examples
+## Examples
 
-**Basic Usage**
+### Basic Usage
 ```typescript
 const task = {
   fn: () => console.log('Hello World!')
@@ -36,7 +42,7 @@ const task = {
 threadTasks([task]);
 ```
 
-**Passing Arguments and Callbacks**
+### Passing Arguments and Callbacks
 ```typescript
 const tasks = [
   {
@@ -49,7 +55,7 @@ const tasks = [
 ];
 threadTasks(tasks);
 ```
-**Using API Requests**
+### Using API Requests
 ```typescript
 const tasks = [
   {
@@ -65,7 +71,7 @@ const tasks = [
 threadTasks(tasks);
 ```
 
-**Using External Packages**
+### Using External Packages
 ```typescript
 const tasks = [
   {
@@ -81,7 +87,7 @@ const tasks = [
 threadTasks(tasks);
 ```
 
-## `threadTasksAdvanced`
+# `threadTasksAdvanced`
 `threadTasksAdvanced` takes in the following properties:
 
 - `tasks`: An array of task objects
@@ -90,9 +96,9 @@ threadTasks(tasks);
 
 and returns a promise that resolves once all the tasks have been processed.
 
-### Examples
+## Examples
 
-**Execute 4 Tasks in Parallel**
+### Execute 4 Tasks in Parallel
 Assume `listOfTasks` is a large array of tasks.
 ```typescript
 const allTasksExecuted = await threadTasksAdvanced({
@@ -103,7 +109,7 @@ const allTasksExecuted = await threadTasksAdvanced({
 ```
 A maximum of 4 tasks will executing in parallel. As soon as one task finishes, another one will take its place. Until all tasks have finished execution.
 
-**Limit Parallel Tasks Using `env.json` Configuration**
+### Limit Parallel Tasks Using `env.json` Configuration
 ```typescript
 const allTasksExecuted = await threadTasksAdvanced({
   tasks: listOfTasks,
@@ -127,7 +133,7 @@ const allTasksExecuted = await threadTasksAdvanced({
 ```
 You can change values like `MAX_THREADS` in `env.json` while tasks are running. The updated value will take effect immediately after the file is saved, allowing you to adjust the maximum thread count (the number of tasks running simultaneously) on the fly.
 
-## Use Cases
+# Use Cases
 
 - Data processing
 - Image or Video processing
