@@ -1,5 +1,11 @@
 # thread-tasks
 
+## 0.3.4
+
+### Patch Changes
+
+- 69df8da: bump version
+
 ## 0.3.3
 
 ### Patch Changes
