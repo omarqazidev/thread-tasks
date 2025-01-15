@@ -1,5 +1,6 @@
-# Thread-Tasks
-Thread your tasks: Boost performance by offloading your CPU-intensive tasks to separate threads.
+<center><img src="./logo.png" width="200" height="200" alt="Codeium Logo" ></center>
+</br>
+<center><b>Thread-ify tasks</b>: Offload your CPU-intensive tasks to separate threads.</center>
 
 ## Installation
 
