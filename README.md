@@ -26,6 +26,7 @@ threadTasks([task]);
 `threadTasks` takes in an array of task objects and returns an array of workers.
 
 **Task Object**
+
 Each task object should have the following properties:
 - `fn`: the function (task) to be executed. Can be a normal function or an async function.
 - `args`: an optional object containing arguments to be passed to the function.
