@@ -4,6 +4,13 @@
 
 ### Patch Changes
 
+- ddd1bbd: update logo
+- eebebde: update tagline
+
+## 0.3.3
+
+### Patch Changes
+
 - 1b370f2: update readme
 - c5f000f: update readme and description
 
